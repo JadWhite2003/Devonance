@@ -40,3 +40,4 @@
 
 # python
 /backend/__pycache__/
+/backend/src/uploads/
