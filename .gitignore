@@ -48,6 +48,8 @@ backend/src/uploads/
 *.pyd
 backend/.env
 backend/src/services/__pycache__/
+backend/src/routers/__pycache__/
+
 
 
 venv/
