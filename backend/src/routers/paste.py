@@ -9,7 +9,7 @@ router = APIRouter()
 @router.post("/paste", response_model=LinkResponse)
 def create_paste(req: PasteRequest):
     slug = make_or_validate_slug(req.custom_slug)
-    expires_at = (datetime.now(timezone.utc) + timedelta(seconds=req.expire_in)).isoformat()
+    expires_at = (datetime.now(timezone.utc) + timedelta(seconds=req.expires_in)).isoformat()
     
     supabase.table("links").insert({
         "slug": slug,
