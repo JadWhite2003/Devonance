@@ -19,21 +19,26 @@ async def upload_file(
 ):
     slug = make_or_validate_slug(custom_slug)
     expires_at = (datetime.now(timezone.utc) + timedelta(seconds=expires_in)).isoformat()
+    
+    link_result = supabase.table("links").insert({
+        "slug": slug,
+        "type": "file",
+        "max_uses": max_uses,
+        "expires_at": expires_at
+    }).execute()
+    link_id = link_result.data[0]["id"]
 
     for file in files:
         storage_path = f"{slug}/{file.filename}"
         file_bytes = await file.read()
         supabase.storage.from_(BUCKET).upload(storage_path, file_bytes, {"content-type": file.content_type or "application/octet-stream"})
     
-    supabase.table("links").insert({
-        "slug": slug,
-        "type": "file",
-        "storage_path": storage_path,
-        "original_name": file.filename,
-        "max_uses": max_uses,
-        "expires_at": expires_at
-    }).execute()
-    
+        supabase.table("link_files").insert({
+            "link_id": link_id,
+            "storage_path": storage_path,
+            "original_name": file.filename,
+        }).execute()
+
     return {"slug": slug, "url": f"/download/{slug}"}
 
 @router.get("/download/{slug}")
