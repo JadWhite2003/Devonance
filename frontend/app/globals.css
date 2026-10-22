@@ -117,6 +117,15 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@keyframes scrollRHorizontal {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 @keyframes scrollHorizontal {
   0% {
     transform: translateX(0);
@@ -126,9 +135,13 @@
   }
 }
 
+
 @layer utilities {
   .animate-scrollHorizontal {
-    animation: scrollHorizontal 60s linear infinite;
+    animation: scrollHorizontal 120s linear infinite;
+  } 
+  .animate-scrollRHorizontal {
+    animation: scrollRHorizontal 120s linear infinite reverse;
   }
 }
 
