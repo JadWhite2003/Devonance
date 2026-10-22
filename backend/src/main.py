@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
 
-from routers import paste, files
+from routers import paste, files, links
 
 load_dotenv()
 
@@ -18,4 +18,5 @@ app.add_middleware(
 
 app.include_router(paste.router)
 app.include_router(files.router)
+app.include_router(links.router)
 

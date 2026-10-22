@@ -39,7 +39,7 @@ const SiteNav = ({ onOpen }: Props) => {
             <button aria-label="Open menu" onClick={onOpen}>
                 <MenuIcon className='w-6 h-6 cursor-pointer text-black dark:text-white lg:hidden' />
             </button>
-            <span className="text-bold text-2xl"> Devonance</span>
+            <span className="text-bold text-2xl md:hidden flex"> Devonance</span>
             <ThemeToggler />
         </header>
     )
