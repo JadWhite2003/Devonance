@@ -22,7 +22,7 @@ const MobileNav = ({ onClose }: Props) => {
         </div>
         {/* Mobile nav links */}
         <nav className='flex flex-col'>
-          <nav className="flex flex-col items-center gap-3 bg-transparent transition-all">
+          <nav className="flex flex-col items-center gap-3 bg-transparent transition-all font-bold">
             <span> Download the PWA!</span>
 
             <a href="https://jadportfolio-34yy.vercel.app/" target="_blank" rel="noreferrer">
