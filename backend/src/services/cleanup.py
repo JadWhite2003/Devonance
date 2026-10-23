@@ -76,5 +76,6 @@ def delete_expired_links():
         
         files_deleted += len(paths)
         links_deleted += len(ids)
+        orphans_deleted = delete_orphaned_files()
     
-    return {"links_deleted": links_deleted, "files_deleted": files_deleted}
+    return {"links_deleted": links_deleted, "files_deleted": files_deleted, "orphans_deleted": orphans_deleted}
