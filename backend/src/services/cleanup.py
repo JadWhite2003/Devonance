@@ -1,6 +1,6 @@
 import logging
 
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from database import supabase
 
 BUCKET = "files"
@@ -12,6 +12,46 @@ logger = logging.getLogger(__name__)
 def _chunks(items: list, size: int):
     for i in range(0, len(items), size):
         yield items[i : i + size]
+
+def delete_orphaned_files(min_age_minutes: int = 60, max_folders: int = 100) -> int:
+    bucket = supabase.storage.from_(BUCKET)
+    cutoff = datetime.now(timezone.utc) - timedelta(minutes = min_age_minutes)
+    
+    folders: list[str] = []
+    offset = 0
+    while True:
+        page = bucket.list("", {"limit": 100, "offset": offset})
+        if not page: 
+            break
+        folders += [i["name"] for i in page if i.get("id") is None]
+        if len(page) < 100:
+            break
+        offset += 100
+        
+    if not folders:
+        return 0
+    
+    existing: set[str] = set()
+    for batch in _chunks(folders, BATCH_SIZE):
+        rows = supabase.table("links").select("slug").in_("slug", batch).execute().data
+        existing.update(r["slug"] for r in rows)
+        
+    orphans = [f for f in folders if f not in existing][:max_folders]
+    
+    paths: list[str] = []
+    for folder in orphans:
+        for item in bucket.list(folder, {"limit":1000}):
+            created = item.get("created_at")
+            if created:
+                created_dt = datetime.fromisoformat(created.replace("Z", "+00:00"))
+                if created_dt > cutoff:
+                    continue
+            paths.append(f"{folder}/{item['name']}")
+            
+    for batch in _chunks(paths, BATCH_SIZE):
+            bucket.remove(batch)
+        
+    return len(paths)
 
 def delete_expired_links():
     now = datetime.now(timezone.utc).isoformat()
