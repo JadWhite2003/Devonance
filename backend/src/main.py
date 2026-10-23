@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
+import sys
 from dotenv import load_dotenv
+from pathlib import Path
+
+sys.path.insert(0, Path(__file__).resolve().parent)
 
 from routers import paste, files, links
 
