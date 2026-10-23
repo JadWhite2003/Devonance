@@ -43,7 +43,18 @@ export function ReceivePage({ initialSlug }: { initialSlug?: string }) {
     }
 
     function handleSubmit() {
-        lookup(extractSlug(urlInput))
+        if (!urlInput.trim()) {
+        setError("Enter a link");
+        return;
+    }
+
+    const extracted = extractSlug(urlInput);
+    if (!extracted) {
+        setError("Enter a valid link");
+        return;
+    }
+
+    void lookup(extracted);
     }
 
     useEffect(() => {
