@@ -14,7 +14,7 @@ async def upload_file(
     files: list[UploadFile] = File(...),
     custom_slug: str | None = Form(None),
     max_uses: int | None = Form(None),
-    expires_in: int = Form(300),
+    expires_in: int = Form(900),
     
 ):
     slug = make_or_validate_slug(custom_slug)
