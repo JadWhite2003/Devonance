@@ -24,14 +24,22 @@ export function ReceivePage({ initialSlug }: { initialSlug?: string }) {
         setInfo(null);
         setContent(null)
 
-        const res = await fetch(`${API_URL}/links/${extracted}/info`);
-        if (!res.ok) {
-            setError("Link not found or expired");
+        if (!extracted.trim()) {
+            setError("Enter a link")
             return;
         }
-        setSlug(extracted);
-        setInfo(await res.json());
 
+        try {
+            const res = await fetch(`${API_URL}/links/${extracted}/info`);
+            if (!res.ok) {
+                setError("Link not found or expired");
+                return;
+            }
+            setSlug(extracted);
+            setInfo(await res.json());
+        } catch {
+            setError("Could not reach the server. Try again later")
+        }
     }
 
     function handleSubmit() {
@@ -63,7 +71,7 @@ export function ReceivePage({ initialSlug }: { initialSlug?: string }) {
             <Separator />
             <div className="flex justify-center items-center text-center">
                 <Input placeholder="Input your URL" className="m-3" value={urlInput} onChange={(e) => setUrlInput(e.target.value)} />
-                <Button className="m-2 p-3" onClick={handleSubmit}>Submit</Button>
+                <Button className="m-2 p-3 cursor-pointer" onClick={handleSubmit}>Submit</Button>
             </div>
             <Separator />
             {error && <p className="text-sm text-destructive">{error}</p>}
@@ -97,7 +105,7 @@ export function ReceivePage({ initialSlug }: { initialSlug?: string }) {
                             </div>
                         ))}
                         <Button onClick={downloadAll}>
-                            <Download className="h-4 w-4" />
+                            <Download className="h-4 w-4 cursor-pointer" />
                             Download all
                         </Button>
                     </div>

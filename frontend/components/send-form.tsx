@@ -64,13 +64,13 @@ export default function SendForm() {
 
             <Tabs value={mode} onValueChange={(v) => setMode(v as "text" | "files")}>
                 <TabsList className="text-center flex items-center justify-center w-full m-1">
-                    <TabsTrigger value="text">Text</TabsTrigger>
-                    <TabsTrigger value="files">Files</TabsTrigger>
+                    <TabsTrigger value="text" className="cursor-pointer">Text</TabsTrigger>
+                    <TabsTrigger value="files" className="cursor-pointer">Files</TabsTrigger>
                 </TabsList>
                 <Separator />
                 <div className="space-y-2 py-4">
                     <Label className=" font-bold">Select use limit:</Label>
-                    <RadioGroup value={useLimit} onValueChange={(v) => setUseLimit(v as UseLimit)} className="flex items-center gap-4 w-full justify-center text-center">
+                    <RadioGroup value={useLimit} onValueChange={(v) => setUseLimit(v as UseLimit)} className="flex items-center gap-4 w-full justify-center text-center cursor-pointer">
                         <div className="flex items-center gap-2">
                             <RadioGroupItem value="once" id="once" />
                             <Label htmlFor="once">Once</Label>
