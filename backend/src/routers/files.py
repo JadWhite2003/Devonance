@@ -49,7 +49,7 @@ def download_file(slug: str):
     with zipfile.ZipFile(buffer, "w") as zf:
         for f in file_rows:
             file_bytes = supabase.storage.from_(BUCKET).download(f["storage_path"])
-            zf.writetest(f["original_name"], file_bytes)
+            zf.writestr(f["original_name"], file_bytes)
     buffer.seek(0)
     return StreamingResponse(buffer, media_type="application/zip", headers={"Content-Disposition": f"attachment; filename={slug}.zip"})
             
