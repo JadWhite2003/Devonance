@@ -34,7 +34,7 @@ def delete_expired_links():
             logger.exception("Cleanup failed for a batch of %d links", len(ids))
             continue
         
-    files_deleted += len(paths)
-    links_deleted += len(ids)
+        files_deleted += len(paths)
+        links_deleted += len(ids)
     
     return {"links_deleted": links_deleted, "files_deleted": files_deleted}
