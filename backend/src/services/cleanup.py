@@ -58,6 +58,7 @@ def delete_expired_links():
     expired = (supabase.table("links").select("id, storage_path").lt("expires_at", now).limit(MAX_PER_RUN).execute().data)
     links_deleted = 0
     files_deleted = 0
+    orphans_deleted = 0
     
     for batch in _chunks(expired, BATCH_SIZE):
         ids = [l["id"] for l in batch]
@@ -76,6 +77,7 @@ def delete_expired_links():
         
         files_deleted += len(paths)
         links_deleted += len(ids)
-        orphans_deleted = delete_orphaned_files()
+        
+    orphans_deleted = delete_orphaned_files()
     
     return {"links_deleted": links_deleted, "files_deleted": files_deleted, "orphans_deleted": orphans_deleted}
