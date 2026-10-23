@@ -15,6 +15,7 @@
     { "source": "/upload", "destination": { "service": "backend" } },
     { "source": "/download(.*)", "destination": { "service": "backend" } },
     { "source": "/links(.*)", "destination": { "service": "backend" } },
+    { "source": "/internal/cleanup", "destination": { "service": "backend" } },
     {
       "source": "/(.*)",
       "destination": {

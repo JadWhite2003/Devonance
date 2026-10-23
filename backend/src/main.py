@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from routers import paste, files, links
+from routers import paste, files, links, admin
 
 load_dotenv()
 
@@ -24,4 +24,5 @@ app.add_middleware(
 app.include_router(paste.router)
 app.include_router(files.router)
 app.include_router(links.router)
+app.include_router(admin.router)
 
