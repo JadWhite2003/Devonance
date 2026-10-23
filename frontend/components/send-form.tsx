@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "./ui/separator";
 import { createPaste, uploadFiles, type SendOptions } from "@/lib/api";
+import { FileDropzone } from "@/components/file-dropzone";
+
 
 type UseLimit = "once" | "infinite" | "custom";
 
@@ -89,8 +91,7 @@ export default function SendForm() {
                     <Textarea placeholder="Enter your text here..." className="min-h-[200px]" value={text} onChange={(e) => setText(e.target.value)} />
                 </TabsContent>
                 <TabsContent value="files" className="">
-                    <Input type="file" className="border-b-gray-100 m-3" multiple onChange={(e) => setFiles(Array.from(e.target.files || []))} />
-                    <ul className="mt-2 text-sm text-muted-foreground">{files.map((f) => (<li key={f.name}>{f.name}</li>))}</ul>
+                    <FileDropzone files={files} onChange={setFiles} />
                 </TabsContent>
             </Tabs>
             <Input placeholder="Custom URL - Leave blank for auto-generated" className="m-3 items-center" value={customSlug} onChange={(e) => setCustomSlug(e.target.value)} />
@@ -101,7 +102,7 @@ export default function SendForm() {
                     <Button variant="outline" onClick={() => navigator.clipboard.writeText(shareUrl)}>Copy</Button>
                 </div>
             )}
-            <Separator className="m-1"/>
+            <Separator className="m-1" />
             <div className="flex justify-between p-2">
                 <Button variant="outline" onClick={handleShare} disabled={!shareUrl}>Share</Button>
                 <Button onClick={handleSend} disabled={!canSend || loading} >{loading ? "Sending..." : "Send"}</Button>

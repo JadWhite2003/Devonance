@@ -2,6 +2,7 @@ import io
 import zipfile
 from fastapi.responses import StreamingResponse
 from fastapi import APIRouter, UploadFile, File, Form, Response
+from fastapi import HTTPException
 from datetime import datetime, timedelta, timezone
 from database import supabase
 from services.links import make_or_validate_slug, consume_link
@@ -38,6 +39,12 @@ async def upload_file(
             "storage_path": storage_path,
             "original_name": file.filename,
         }).execute()
+        
+        MAX_FILE_SIZE = 50 * 1024 * 1024
+        
+        if file.size is not None and file.size > MAX_FILE_SIZE:
+            raise HTTPException(413, f"{file.filename} is too large (MAX 60 MB)")
+        
 
     return {"slug": slug, "url": f"/download/{slug}"}
 
