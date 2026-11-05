@@ -30,7 +30,7 @@ const MobileNav = ({ onClose }: Props) => {
             </a>
             <Separator className="text-muted-foreground" />
             <a href="https://chromewebstore.google.com" target="_blank" rel="noreferrer">
-              Try the Chrome Extension
+              Try the Chrome Extension'WIP'
             </a>
             <Separator className="text-muted-foreground" />
             <a href="https://github.com/JadWhite2003/Devonance" target="_blank" rel="noreferrer">
