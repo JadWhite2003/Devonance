@@ -12,7 +12,7 @@ export function formatBytes(bytes: number) {
     const units = ["B", "KB", "MB", "GB"]
     const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
     const value = bytes / 1024 ** i;
-    return `${value.toFixed(i === 0 ? 0 : 1)} ${units[1]}`
+    return `${value.toFixed(i === 0 ? 0 : 1)} ${units[i]}`
 };
 
 const fileKey = (f: File) => `${f.name}-${f.size}-${f.lastModified}`;

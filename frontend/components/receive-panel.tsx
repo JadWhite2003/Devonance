@@ -61,8 +61,6 @@ export function ReceivePage({ initialSlug }: { initialSlug?: string }) {
         if (initialSlug) lookup(initialSlug);
     }, [initialSlug])
 
-
-
     async function revealText() {
         const res = await fetch(`${API_URL}/paste/${slug}`);
         if (!res.ok) {
